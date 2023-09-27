@@ -1,0 +1,8 @@
+.page-container {
+    width: calc(100% - 200px);
+    height: 100%;
+    border-radius: 30px;
+    background-color: #1f0409;
+    opacity: 1;
+    background-image: repeating-radial-gradient(circle at 0 0, transparent 0, #1f0409 13px), repeating-linear-gradient(#444cf755, #444cf7);
+}

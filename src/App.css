@@ -1,0 +1,44 @@
+@import url(./shared/globalStyles.css);
+
+#root {
+  /* max-width: 1280px; */
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+.active {
+  background-color: rgb(125, 253, 189);
+  border-color: rgb(45, 237, 83);
+  border: 3px;
+  color: #000;
+  font-weight: 600;
+  border-radius: 1rem;
+  cursor: default;
+}
+
+.custom-card {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  border-radius: 1rem;
+  border: 5px solid aquamarine;
+  /* border-color: aquamarine; */
+}
+
+.loading {
+  background-image: url(./assets/Spinner.gif);
+  background-repeat: no-repeat;
+  display: block;
+  margin: auto;
+  top: 45%;
+  left: 35%;
+  position: fixed;
+}
+
+.main-container {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  /* box-sizing: border-box; */
+  /* border-radius: 30px 0; */
+}

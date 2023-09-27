@@ -1,0 +1,11 @@
+.spotify-login-logo {
+    height: 128px;
+    width: 128px;
+    background-repeat: no-repeat;
+    margin: 20px 10px;
+}
+
+.login-div {
+    display: block;
+    margin: auto;
+}

@@ -1,0 +1,22 @@
+.navbar-container {
+    height: 64px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    margin: 10px auto;
+    justify-content: space-between;
+}
+
+.header-title {
+    font-size: large;
+    font-weight: bold;
+}
+
+.about-button {
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    right: 0;
+    bottom: 0;
+    padding: 20px;
+}
