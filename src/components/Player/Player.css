@@ -1,0 +1,16 @@
+.song-card-container {
+    width: 32.5%;
+    height: 100%;
+    margin-right: 2.5%;
+}
+
+.playlist-info-container {
+    width: 32.5%;
+    height: 100%;
+    margin-left: 2.5%;
+}
+
+.track-container {
+    width: 30%;
+    height: 100%;
+}

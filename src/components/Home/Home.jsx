@@ -44,23 +44,23 @@ function Home() {
   //   }
   // }
 
-  return (
-    <div id="home-container" className="container ml-72">
-      {/* Home Container <span>Successfully logged in </span>
-        <p>
-          Welcome <span className="text-xl">{profileInfo.display_name}</span>
-        </p>
-        <p>
-          ID : <span>{profileInfo.id}</span>
-        </p> */}
-      <div>
-        {/* {!_.isEmpty(selectedPlaylists) && selectedPlaylists.length ? (
-          <Selected />
-        ) : null} */}
-      </div>
-      {/* <Playlist user_id={profileInfo.id} /> */}
-    </div>
-  );
+  // return (
+  //   <div id="home-container" className="container ml-72">
+  //     {/* Home Container <span>Successfully logged in </span>
+  //       <p>
+  //         Welcome <span className="text-xl">{profileInfo.display_name}</span>
+  //       </p>
+  //       <p>
+  //         ID : <span>{profileInfo.id}</span>
+  //       </p> */}
+  //     <div>
+  //       {/* {!_.isEmpty(selectedPlaylists) && selectedPlaylists.length ? (
+  //         <Selected />
+  //       ) : null} */}
+  //     </div>
+  //     {/* <Playlist user_id={profileInfo.id} /> */}
+  //   </div>
+  // );
 }
 
 export default Home;

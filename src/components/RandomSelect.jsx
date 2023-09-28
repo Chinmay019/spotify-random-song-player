@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext, useMemo } from "react";
-import Player from "./Pages/Player";
+import Player from "./Pages/PlayerFirst";
 import Spinner from "./Spinner/Spinner";
 import SpotifyContext from "../context/SpotifyContext";
 import { getRandomSong } from "../context/Action";

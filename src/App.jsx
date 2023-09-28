@@ -5,11 +5,12 @@ import Navbar from "./components/Navbar/Navbar";
 import About from "./components/About/About";
 import Code from "./components/Code";
 import Home from "./components/Home/Home";
-import RandomSelect from "./components/RandomSelect";
+// import RandomSelect from "./components/RandomSelect";
 import { SpotifyProvider } from "./context/SpotifyContext";
 import Sidebar from "./components/Sidebar/Sidebar";
 import Trending from "./components/Pages/Trending";
 import Playlist from "./components/Playlists/Playlists";
+import Player from "./components/Player/Player";
 
 function App() {
   return (
@@ -23,7 +24,7 @@ function App() {
               <Route path="/" element={<Login />} />
               <Route path="/login" element={<Login />} />
               <Route path="/about" element={<About />} />
-              <Route path="/home" element={<Home />} />
+              <Route path="/player" element={<Player />} />
               <Route path="/playlists" element={<Playlist />} />
               <Route path="/trending" element={<Trending />} />
               <Route path="/callback?/:code" element={<Code />} />

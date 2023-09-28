@@ -44,7 +44,7 @@ function Code() {
   useEffect(() => {
     if (isLoggedIn) {
       console.log("logged in");
-      return navigate("/home");
+      return navigate("/playlists");
     }
   }, [isLoggedIn]);
 }
