@@ -18,9 +18,9 @@ function Navbar() {
         </Link>
       </div>
       <div className="about-button">
-        <button className="btn btn-ghost">
-          <Link to="/about">About</Link>
-        </button>
+        <Link to="/about">
+          <button className="btn btn-ghost">About</button>
+        </Link>
       </div>
     </div>
     // <div className="navbar bg-base-100 lg:w-full md:w-full xl:w-full h-16">
