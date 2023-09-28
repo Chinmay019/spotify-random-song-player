@@ -15,12 +15,15 @@ function Player() {
         return elem.playlist_id === location.state.playlist_id;
       });
       const selectedPlaylistTracks = data[0];
+      console.log(selectedPlaylistTracks);
       dispatch({
         type: "SELECTED_PLAYLIST_ITEMS",
         payload: selectedPlaylistTracks,
       });
+      setTrack(selectedPlaylistTracks);
     }
-  }, [location.state]);
+  }, [location.state.key]);
+
   const [currentlyPlaying, setCurrentlyPlaying] = useState({});
   const [track, setTrack] = useState({});
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -30,7 +33,7 @@ function Player() {
       <div className="track-container">
         Actual Player Container with surprise me at the bottom
       </div>
-      <div className="playlist-info-container">
+      <div className="playlist-info-container flex">
         <PlaylistImage images={location?.state?.item.images} />
         <PlaylistInfo album={location?.state?.item} />
       </div>

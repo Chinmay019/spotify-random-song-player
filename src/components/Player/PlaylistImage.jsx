@@ -15,9 +15,14 @@ function PlaylistImage({ images } = []) {
   const imageURL = getImageURL(images);
   console.log(imageURL);
   return (
-    <div className="playlist-image-container">
+    // <div className="playlist-image-container flex">
+    <div className="album-image flex">
       <img src={imageURL} alt="Playlist Photo" className="playlist-photo"></img>
+      <div className="shadow">
+        <img src={imageURL} alt="Playlist Photo" className="shadow-img"></img>
+      </div>
     </div>
+    // </div>
   );
 }
 
