@@ -7,7 +7,7 @@ import { HiPlay } from "react-icons/hi";
 import "./Playlists.css";
 
 function PlaylistItem({ name, item }) {
-  const { dispatch, selectedPlaylists, access_token } =
+  const { dispatch, selectedPlaylistInfo, access_token } =
     useContext(SpotifyContext);
   let navigate = useNavigate();
   useEffect(() => {
@@ -95,7 +95,7 @@ function PlaylistItem({ name, item }) {
 
   const handlePlayClick = (id, item) => {
     console.log(id, item);
-    navigate("/player", { state: { id: id, item } });
+    navigate("/player", { state: { playlist_id: id, item } });
   };
 
   return (

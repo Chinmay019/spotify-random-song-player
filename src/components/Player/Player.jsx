@@ -1,12 +1,26 @@
-import React, { useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { useLocation } from "react-router-dom";
 import "./Player.css";
 import PlaylistImage from "./PlaylistImage";
 import PlaylistInfo from "./PlaylistInfo";
+import SpotifyContext from "../../context/SpotifyContext";
 
-function Player({ props }) {
+function Player() {
   const location = useLocation();
+  const { allTracks, dispatch } = useContext(SpotifyContext);
   console.log(location);
+  useEffect(() => {
+    if (location.state) {
+      const data = allTracks.filter((elem) => {
+        return elem.playlist_id === location.state.playlist_id;
+      });
+      const selectedPlaylistTracks = data[0];
+      dispatch({
+        type: "SELECTED_PLAYLIST_ITEMS",
+        payload: selectedPlaylistTracks,
+      });
+    }
+  }, [location.state]);
   const [currentlyPlaying, setCurrentlyPlaying] = useState({});
   const [track, setTrack] = useState({});
   const [currentIndex, setCurrentIndex] = useState(0);

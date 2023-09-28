@@ -55,12 +55,20 @@ const spotifyReducer = (state, action) => {
     case "SELECT_PLAYLIST":
       return {
         ...state,
-        selectedPlaylists: [...state.selectedPlaylists, ...[action.payload]],
+        selectedPlaylistInfo: [
+          ...state.selectedPlaylistInfo,
+          ...[action.payload],
+        ],
+      };
+    case "SELECTED_PLAYLIST_ITEMS":
+      return {
+        ...state,
+        playlistItems: action.payload,
       };
     case "REMOVE_PLAYLIST":
       return {
         ...state,
-        selectedPlaylists: state.selectedPlaylists.filter(
+        selectedPlaylistInfo: state.selectedPlaylistInfo.filter(
           (playlist) => playlist.playlist_id !== action.payload
         ),
       };
