@@ -7,7 +7,7 @@ function SidebarButton(props) {
   const location = useLocation();
   const isActive = location.pathname === props.to;
   const itemClass = isActive ? "link-item active-link" : "link-item";
-  console.log(isActive);
+  // console.log(isActive);
   return (
     <Link to={props.to}>
       <div className={itemClass}>

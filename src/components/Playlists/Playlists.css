@@ -13,11 +13,11 @@
     position: relative;
     flex-direction: column;
     height: 100%;
+    transition: all 0.3s cubic-bezier(0.25, 0.45, 0.45, 0.95);
 }
 
 .playlist-card:hover {
-    border: 3px solid rgba(6, 237, 229, 0.8);
-    border-radius: 20px;
+    transform: scale(1.02);
 }
 
 .playlist-card:hover .play-button {

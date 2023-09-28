@@ -2,7 +2,7 @@ import React, { useEffect, useContext, useState } from "react";
 import SpotifyContext from "../../context/SpotifyContext";
 import Spinner from "../Spinner/Spinner";
 import { useNavigate } from "react-router-dom";
-import { getPlaylistInfo } from "../../context/Action";
+import { getPlaylistInfo, getUserInfo } from "../../context/Action";
 import PlaylistItem from "./PlaylistItem";
 import _ from "lodash";
 
@@ -10,6 +10,26 @@ function Playlists() {
   const navigate = useNavigate();
   const { loading, access_token, isLoggedIn, dispatch, playlistNew, userId } =
     useContext(SpotifyContext);
+
+  useEffect(() => {
+    if (!isLoggedIn) {
+      return navigate("/");
+    } else if (!access_token) {
+      const getProfileInfo = async () => {
+        console.log("getInfo in home");
+        if (isLoggedIn) {
+          console.log("user logged in");
+          dispatch({ type: "SET_LOADING" });
+          const resp = await getUserInfo(access_token);
+          console.log(resp);
+          dispatch({ type: "SET_USER_ID", payload: resp.id });
+          dispatch({ type: "GET_PROFILE_INFO", payload: resp });
+          // dispatch({ type: "UNSET_LOADING" });
+        }
+      };
+      getProfileInfo();
+    }
+  }, []);
 
   useEffect(() => {
     console.log("useeffect called in playlist");

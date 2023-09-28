@@ -4,8 +4,6 @@ import Login from "./components/Login/Login";
 import Navbar from "./components/Navbar/Navbar";
 import About from "./components/About/About";
 import Code from "./components/Code";
-import Home from "./components/Home/Home";
-// import RandomSelect from "./components/RandomSelect";
 import { SpotifyProvider } from "./context/SpotifyContext";
 import Sidebar from "./components/Sidebar/Sidebar";
 import Trending from "./components/Pages/Trending";
@@ -30,7 +28,6 @@ function App() {
               <Route path="/callback?/:code" element={<Code />} />
             </Routes>
           </div>
-          {/* <RandomSelect /> */}
         </div>
       </Router>
     </SpotifyProvider>

@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from "react";
 import SpotifyContext from "../../context/SpotifyContext";
 import _ from "lodash";
+import { useNavigate } from "react-router-dom";
 import { getPlaylistTracks } from "../../context/Action";
 import { HiPlay } from "react-icons/hi";
 import "./Playlists.css";
@@ -8,11 +9,12 @@ import "./Playlists.css";
 function PlaylistItem({ name, item }) {
   const { dispatch, selectedPlaylists, access_token } =
     useContext(SpotifyContext);
+  let navigate = useNavigate();
   useEffect(() => {
     const getTracks = async () => {
       const data = await getPlaylistTracks(item?.id, access_token);
       // const data = tracksList.data;
-      console.log(data);
+      // console.log(data);
       if (data) {
         dispatch({
           type: "SET_TRACKS",
@@ -28,8 +30,8 @@ function PlaylistItem({ name, item }) {
   }, [item.id]);
   let imageURL = "";
   const getImage = () => {
-    console.log("inside getImage");
-    console.log(item);
+    // console.log("inside getImage");
+    // console.log(item);
     item.images.map((img) => {
       if (img.height == 300 && img.width == 300) {
         imageURL = img.url;
@@ -60,8 +62,8 @@ function PlaylistItem({ name, item }) {
   const handleClick = () => {
     let elem = document.querySelector(`#playlist-item-${item?.id}`);
     if (elem.classList.contains("active")) {
-      console.log("playlist selected");
-      console.log("selected item: ", item?.id);
+      // console.log("playlist selected");
+      // console.log("selected item: ", item?.id);
       dispatch({
         type: "REMOVE_PLAYLIST",
         payload: item.id,
@@ -91,6 +93,11 @@ function PlaylistItem({ name, item }) {
     }
   };
 
+  const handlePlayClick = (id, item) => {
+    console.log(id, item);
+    navigate("/player", { state: { id: id, item } });
+  };
+
   return (
     <div
       id={`playlist-item-${item?.id}`}
@@ -103,14 +110,17 @@ function PlaylistItem({ name, item }) {
         <figure className="p-1.5 playlist-image">
           <img
             src={imageURL}
-            className="border-base-content bg-base-300 rounded-lg border border-opacity-5 p-1 "
+            className="border-base-content rounded-lg border border-opacity-5 p-1 "
           />
         </figure>
         {/* <div className="card-body text-center"> */}
         <div className="playlist-info">
           <span className="playlist-title">{name}</span>
           <span className="songs-info">{item.tracks.total} Songs</span>
-          <div className="select-playlist">
+          <div
+            className="select-playlist"
+            onClick={() => handlePlayClick(item.id, item)}
+          >
             <HiPlay size={50} className="play-button" />
           </div>
         </div>
