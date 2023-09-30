@@ -1,0 +1,36 @@
+.playlist-desc-container {
+    width: 80%;
+    height: 100%;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex: 1 1 auto;
+    margin-top: 30px;
+    padding-left: 30px;
+
+}
+
+.animate-album-name {
+    /* background: rgb(13, 215, 231);
+    background: linear-gradient(90deg, rgba(13, 215, 231, 1) 0%, rgba(9, 38, 121, 1) 35%, rgba(219, 8, 16, 1) 70%, rgba(245, 255, 0, 1) 100%); */
+    font-size: 2rem;
+    color: #fff;
+    /* background: rgb(204, 9, 228);
+    background: radial-gradient(circle, rgba(204, 9, 228, 1) 0%, rgba(6, 113, 240, 1) 100%); */
+    background: rgb(0, 250, 66);
+    background: radial-gradient(circle, rgba(0, 250, 66, 0.7820378151260504) 0%, rgba(241, 236, 236, 0) 48%, rgba(250, 117, 0, 1) 100%);
+    background-size: auto auto;
+    background-clip: border-box;
+    background-size: 200% auto;
+    background-clip: text;
+    text-fill-color: transparent;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: animate 3s linear infinite;
+}
+
+@keyframes animate {
+    to {
+        background-position: 200% center;
+    }
+}

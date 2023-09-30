@@ -65,6 +65,11 @@ const spotifyReducer = (state, action) => {
         ...state,
         playlistItems: action.payload,
       };
+    case "SELECTED_RANDOM_SONG":
+      return {
+        ...state,
+        currentlyPlaying: action.payload,
+      };
     case "REMOVE_PLAYLIST":
       return {
         ...state,

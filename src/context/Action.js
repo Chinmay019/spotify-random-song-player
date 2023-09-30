@@ -126,11 +126,11 @@ export const getPlaylistTracks = async (playlist_id, access_token) => {
 }
 
 export const getRandomSong = (tracks) => {
-
     // const RandomPlaylist = allTracks[Math.floor(Math.random() * allTracks.length)];
-    const RandomTrack = Math.floor(Math.random() * tracks?.length);
-    const track = RandomPlaylist?.tracks?.[RandomTrack].track;
+    const randomTrackIndex = Math.floor(Math.random() * tracks.length);
+    const track = tracks[randomTrackIndex].track;
 
+    console.log(track + "from actions getrandom song");
     return track;
 }
 

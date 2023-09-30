@@ -1,0 +1,43 @@
+.song-card {
+    flex-direction: column;
+    width: 80%;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+}
+
+.song-album-container {
+    background: #000;
+    background: linear-gradient(125deg, #000000 0%, #322323 25%, #1e539e 50%, #ff3083 75%, #7800a8 100%);
+    background-size: 400% 500%;
+    background-repeat: no-repeat;
+    display: flex;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    position: relative;
+    cursor: pointer;
+    transition: .35s all;
+    border-radius: 20px;
+
+}
+
+.song-album-container:hover {
+    background-position: 100% 100%;
+}
+
+.song-album-img {
+    height: 100%;
+    width: 100%;
+    aspect-ratio: 1;
+    border-radius: 20px;
+    background-size: cover;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    opacity: .5;
+    mix-blend-mode: screen;
+}
