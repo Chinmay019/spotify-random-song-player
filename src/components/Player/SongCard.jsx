@@ -1,5 +1,6 @@
 import React from "react";
 import "./SongCard.css";
+import Spinner from "../Spinner/Spinner";
 
 function getImageURL(images) {
   let imageURL = images?.map((elem) => {
@@ -22,7 +23,10 @@ const getArtist = (artists) => {
   return artistsName;
 };
 
-function SongCard({ songInfo }) {
+function SongCard({ songInfo, setLoading }) {
+  if (setLoading) {
+    return <Spinner />;
+  }
   const images = songInfo?.album?.images;
   const imageUrl = images && getImageURL(images);
   const artist = getArtist(songInfo?.artists);
