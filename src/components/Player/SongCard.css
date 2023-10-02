@@ -22,7 +22,10 @@
     cursor: pointer;
     transition: .35s all;
     border-radius: 20px;
+}
 
+.song-information {
+    flex-direction: column;
 }
 
 .song-album-container:hover {

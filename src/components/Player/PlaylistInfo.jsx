@@ -6,7 +6,6 @@ function PlaylistInfo({ album }) {
   if (description.trim().length == 0) {
     description = "Playlist created by " + album.owner.display_name;
   }
-  console.log(album);
   return (
     <div className="playlist-desc-container flex">
       <div className="animate-album-name">{album.name}</div>

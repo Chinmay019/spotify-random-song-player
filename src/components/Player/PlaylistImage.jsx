@@ -11,9 +11,7 @@ function getImageURL(images) {
 }
 
 function PlaylistImage({ images } = []) {
-  console.log(images);
   const imageURL = getImageURL(images);
-  console.log(imageURL);
   return (
     // <div className="playlist-image-container flex">
     <div className="album-image flex">

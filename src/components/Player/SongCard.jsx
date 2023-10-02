@@ -1,6 +1,5 @@
-import React, { useState, useEffect, useContext } from "react";
+import React from "react";
 import "./SongCard.css";
-import SpotifyContext from "../../context/SpotifyContext";
 
 function getImageURL(images) {
   let imageURL = images?.map((elem) => {
@@ -11,23 +10,37 @@ function getImageURL(images) {
   return imageURL && imageURL.length ? imageURL[0] : defaultImageURL;
 }
 
-function SongCard() {
-  const { dispatch, currentlyPlaying } = useContext(SpotifyContext);
+const getArtist = (artists) => {
+  let artistsName = "";
+  artists.forEach((elem) => {
+    if (artistsName.trim().length > 0) {
+      artistsName += ", " + elem.name;
+    } else {
+      artistsName += elem.name;
+    }
+  });
+  return artistsName;
+};
 
-  // useEffect(() => {}, [currentlyPlaying?.id]);
-  const images = currentlyPlaying?.album?.images;
-  const imageURL = getImageURL(images);
-
+function SongCard({ songInfo }) {
+  const images = songInfo?.album?.images;
+  const imageUrl = images && getImageURL(images);
+  const artist = getArtist(songInfo?.artists);
   return (
     <div className="song-card flex">
       <div className="song-album-container">
         <img
-          src={imageURL}
+          src={imageUrl}
           alt="Song Album image"
           className="song-album-img"
         ></img>
       </div>
-      <div>Artist scroller goes here</div>
+      <div className="song-information flex">
+        <div className="song-name">{songInfo?.name}</div>
+        <div className="artist-name">{artist.length && artist}</div>
+        <div className="album-name">{songInfo?.album?.name}</div>
+        <div className="release-date">{songInfo?.album?.release_date}</div>
+      </div>
     </div>
   );
 }

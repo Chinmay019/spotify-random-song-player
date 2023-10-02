@@ -2,12 +2,12 @@ import React, { useContext, useEffect } from "react";
 import SpotifyContext from "../../context/SpotifyContext";
 import _ from "lodash";
 import { useNavigate } from "react-router-dom";
-import { getPlaylistTracks } from "../../context/Action";
+import { getPlaylistTracks, getRandomSong } from "../../context/Action";
 import { HiPlay } from "react-icons/hi";
 import "./Playlists.css";
 
 function PlaylistItem({ name, item }) {
-  const { dispatch, selectedPlaylistInfo, access_token } =
+  const { dispatch, selectedPlaylistInfo, access_token, allTracks } =
     useContext(SpotifyContext);
   let navigate = useNavigate();
   useEffect(() => {
@@ -30,8 +30,6 @@ function PlaylistItem({ name, item }) {
   }, [item.id]);
   let imageURL = "";
   const getImage = () => {
-    // console.log("inside getImage");
-    // console.log(item);
     item.images.map((img) => {
       if (img.height == 300 && img.width == 300) {
         imageURL = img.url;
@@ -48,22 +46,38 @@ function PlaylistItem({ name, item }) {
   };
   getImage();
 
-  // const verifyPlaylistPresent = (p_id) => {
-  //   if (!_.isEmpty(selectedPlaylists) && selectedPlaylists.length) {
-  //     let playlistItem = _.find(selectedPlaylists, (it) => {
-  //       return it.playlist_id === p_id;
-  //     });
-  //     console.log(playlistItem);
-  //     return playlistItem;
-  //   }
-  //   return false;
-  // };
+  const getTracksFromPlaylist = (id) => {
+    const selectedPlaylistTracks = allTracks.filter((elem) => {
+      return elem.playlist_id === id;
+    })[0];
+    console.log(selectedPlaylistTracks);
+    dispatch({
+      type: "SELECTED_PLAYLIST_ITEMS",
+      payload: selectedPlaylistTracks,
+    });
+    return selectedPlaylistTracks;
+  };
+
+  const selectRandomSong = (tracks) => {
+    const randTrack = getRandomSong(tracks);
+    console.log(randTrack);
+    if (
+      randTrack &&
+      randTrack.track &&
+      randTrack.preview_url !== null &&
+      randTrack.name !== null
+    ) {
+      console.log("randomly selected song is: " + randTrack);
+      dispatch({ type: "SELECTED_RANDOM_SONG", payload: randTrack });
+      return randTrack;
+    } else {
+      selectRandomSong(tracks);
+    }
+  };
 
   const handleClick = () => {
     let elem = document.querySelector(`#playlist-item-${item?.id}`);
     if (elem.classList.contains("active")) {
-      // console.log("playlist selected");
-      // console.log("selected item: ", item?.id);
       dispatch({
         type: "REMOVE_PLAYLIST",
         payload: item.id,
@@ -77,13 +91,6 @@ function PlaylistItem({ name, item }) {
           playlist_tracks: item.tracks,
         },
       });
-
-      // const getTracks = async () => {
-      //   const tracksList = await getPlaylistTracks(item?.id, access_token);
-      //   const data = await tracksList.data;
-      //   if (data) console.log(data);
-      // };
-      // getTracks();
     }
     elem.classList.toggle("active");
     if (elem.classList.contains("active")) {
@@ -94,8 +101,14 @@ function PlaylistItem({ name, item }) {
   };
 
   const handlePlayClick = (id, item) => {
-    console.log(id, item);
-    navigate("/player", { state: { playlist_id: id, item } });
+    const playlistTracks = getTracksFromPlaylist(id);
+    let randomSongSelected = undefined;
+    do {
+      randomSongSelected = selectRandomSong(playlistTracks.tracks);
+    } while (randomSongSelected === undefined);
+    navigate(`/player/${id}`, {
+      state: { playlist_id: id, item, song: randomSongSelected },
+    });
   };
 
   return (

@@ -14,7 +14,6 @@ export const SpotifyProvider = ({ children }) => {
     profileInfo: {},
     device_id: "",
     playlistItems: {},
-    currentlyPlaying: {},
     currentIndex: 0,
     playlistNew: {},
     selectedPlaylistInfo: [],
