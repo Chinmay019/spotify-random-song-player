@@ -33,8 +33,10 @@ function PlaylistCard({ images = [], setLoading, album = {} }) {
           <img src={imageURL} alt="Playlist Photo" className="shadow-img"></img>
         </div>
       </div>
-      <div className="animate-album-name">{album.name}</div>
-      <p>{description}</p>
+      <div className="album-info flex">
+        <div className="animate-album-name">{album.name}</div>
+        <p className="playlist-desc">{description}</p>
+      </div>
     </div>
   );
 }

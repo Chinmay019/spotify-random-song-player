@@ -1,6 +1,7 @@
 .song-card {
     flex-direction: column;
-    width: 80%;
+    width: 100%;
+    height: 100%;
     justify-content: center;
     align-items: center;
     position: relative;
@@ -26,6 +27,8 @@
 
 .song-information {
     flex-direction: column;
+    width: 100%;
+    overflow: hidden;
 }
 
 .song-album-container:hover {
@@ -41,6 +44,45 @@
     width: 100%;
     height: 100%;
     z-index: 1;
-    opacity: .5;
+    opacity: 0.5;
     mix-blend-mode: screen;
+}
+
+.marquee-container {
+    width: 100%;
+    /* padding-left: 0%; */
+    /* padding-right: -100%; */
+    display: inline-block;
+    white-space: nowrap;
+    justify-content: space-between;
+    margin-top: 20px;
+    animation: marquee 6s linear infinite;
+    /* padding-left: -100%; */
+    overflow: hidden;
+}
+
+.marquee-container span {
+    width: 100%;
+    padding-left: -100%;
+}
+
+.song-name {
+    color: #fff;
+    font-size: 16px;
+    font-family: Skranji, Courgette, 'Courier New', Courier, monospace;
+    font-weight: bold;
+}
+
+.artist-name {
+    width: 100%;
+}
+
+@keyframes marquee {
+    0% {
+        transform: translateX(100%);
+    }
+
+    100% {
+        transform: translateX(-100%);
+    }
 }

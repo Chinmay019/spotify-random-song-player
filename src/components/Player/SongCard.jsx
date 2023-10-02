@@ -40,7 +40,12 @@ function SongCard({ songInfo, setLoading }) {
         ></img>
       </div>
       <div className="song-information flex">
-        <div className="song-name">{songInfo?.name}</div>
+        <div className="marquee-container flex">
+          {/* todo : fix the text scroller on left animate */}
+          <span className="song-name">{songInfo?.name}</span>
+          <span className="song-name">{songInfo?.name}</span>
+          <span className="song-name">{songInfo?.name}</span>
+        </div>
         <div className="artist-name">{artist.length && artist}</div>
         <div className="album-name">{songInfo?.album?.name}</div>
         <div className="release-date">{songInfo?.album?.release_date}</div>
