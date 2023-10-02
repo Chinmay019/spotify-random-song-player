@@ -100,14 +100,16 @@ function PlaylistItem({ name, item }) {
     }
   };
 
-  const handlePlayClick = (id, item) => {
-    const playlistTracks = getTracksFromPlaylist(id);
+  const handlePlayClick = (playlist_id, item) => {
+    const playlistTracks = getTracksFromPlaylist(playlist_id);
     let randomSongSelected = undefined;
     do {
       randomSongSelected = selectRandomSong(playlistTracks.tracks);
     } while (randomSongSelected === undefined);
-    navigate(`/player/${id}`, {
-      state: { playlist_id: id, item, song: randomSongSelected },
+    console.log(randomSongSelected);
+    const song_id = randomSongSelected.id;
+    navigate(`/player/${playlist_id}/${song_id}`, {
+      state: { playlist_id: playlist_id, item, song: randomSongSelected },
     });
   };
 

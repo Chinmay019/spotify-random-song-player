@@ -5,7 +5,6 @@ import PlaylistImage from "./PlaylistImage";
 import PlaylistInfo from "./PlaylistInfo";
 import SpotifyContext from "../../context/SpotifyContext";
 import SongCard from "./SongCard";
-import MusicControlButton from "../musicController/MusicControlButton";
 import AudioPlayer from "./AudioPlayer";
 
 function Player() {
@@ -19,9 +18,6 @@ function Player() {
       </div>
       <div className="track-container">
         <AudioPlayer songInfo={location?.state?.song} />
-        <MusicControlButton />
-        <MusicControlButton />
-        <MusicControlButton />
       </div>
       <div className="playlist-info-container flex">
         <PlaylistImage images={location?.state?.item.images} />
