@@ -22,7 +22,8 @@ function Player() {
       <div className="song-card-container">
         <SongCard songInfo={location?.state?.song} setLoading={setLoading} />
       </div>
-      <div className="track-container">
+      <div className="track-container flex">
+        <span className="song-title-header">{location?.state?.song?.name}</span>
         <AudioPlayer songInfo={location?.state?.song} setLoading={setLoading} />
       </div>
       <div className="playlist-info-container flex">

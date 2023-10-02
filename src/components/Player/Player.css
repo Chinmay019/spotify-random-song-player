@@ -22,4 +22,12 @@
 .track-container {
     width: 30%;
     height: 100%;
+    flex-direction: column;
+}
+
+.song-title-header {
+    text-align: center;
+    margin: 40px auto;
+    font-family: "Mate SC", Literata, 'Courier New', Courier, monospace;
+    font-size: 36px;
 }
