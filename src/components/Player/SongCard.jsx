@@ -44,7 +44,7 @@ function SongCard({ songInfo, setLoading }) {
           {/* todo : fix the text scroller on left animate */}
           <span className="song-name">{songInfo?.name}</span>
           <span className="song-name">{songInfo?.name}</span>
-          <span className="song-name">{songInfo?.name}</span>
+          {/* <span className="song-name">{songInfo?.name}</span> */}
         </div>
         <div className="artist-name">{artist.length && artist}</div>
         <div className="album-name">{songInfo?.album?.name}</div>
