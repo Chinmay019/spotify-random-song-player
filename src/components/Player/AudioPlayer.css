@@ -1,3 +1,7 @@
 .main-audio-player {
     flex-direction: column;
 }
+
+.duration {
+    justify-content: space-evenly;
+}
