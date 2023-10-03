@@ -32,27 +32,28 @@ function AudioPlayer({
 
   useEffect(() => {
     if (isPlaying && audioRef.current) {
-      // audioRef.current.pause();
+      audioRef.current.pause();
       clearInterval(intervalRef.current);
       audioRef.current = new Audio(audioSrc);
       audioRef.current.play();
-      audioRef.current.addEventListener(
-        "ended",
-        () => {
-          if (loop) {
-            audioRef.current.currentTime = 0;
-            audioRef.current.play();
-            console.log("inside event listener if");
-          }
-        },
-        false
-      );
-      console.log("Audio playing");
     } else {
       audioRef.current.pause();
       clearInterval(intervalRef);
     }
-  }, [isPlaying]);
+  }, [audioSrc]);
+
+  useEffect(() => {
+    if (isPlaying && loop && audioRef.current) {
+      audioRef.current.addEventListener(
+        "ended",
+        () => {
+          audioRef.current.currentTime = 0;
+          audioRef.current.play();
+        },
+        false
+      );
+    }
+  }, [loop]);
 
   useEffect(() => {
     if (isReady.current) {
@@ -79,6 +80,8 @@ function AudioPlayer({
       //   false
       // );
       audioRef.current.pause();
+      setIsPlaying(false);
+      setLoop(false);
       console.log(audioRef);
       clearInterval(intervalRef.current);
     };
