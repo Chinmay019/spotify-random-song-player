@@ -78,11 +78,8 @@ function AudioPlayer({
       //   },
       //   false
       // );
-      // setLoop(false);
-      // setIsPlaying(false);
       audioRef.current.pause();
       console.log(audioRef);
-      // audioRef.current = null;
       clearInterval(intervalRef.current);
     };
   }, []);
