@@ -9,7 +9,7 @@ function Navbar() {
 
   return (
     <div className="navbar-container">
-      <div className="flex items-center">
+      <div className="flex items-center ml-[1.2rem]">
         <SiSpotify size={40} className="fill-current text-white-700 m-3.5" />
         <Link to="/login">
           <button className="btn btn-ghost normal-case text-xl">

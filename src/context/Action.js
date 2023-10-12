@@ -47,7 +47,6 @@ const generateCodeChallenge = async (codeVerifier) => {
 }
 
 export const getAccessToken = async (code) => {
-    console.log("inside getAccessToken");
     let codeVerifier = localStorage.getItem('code_verifier');
     const params = new URLSearchParams({
         grant_type: 'authorization_code',
@@ -86,20 +85,10 @@ export const getPlaylistInfo = async (access_token) => {
     }
     );
     if (resp.status == 200) {
-        // const data = await resp.json();
         const playlistData = await resp.json();
         console.log("playlistdata: ", playlistData);
         return playlistData;
     }
-    // const resp = await Axios.get(`${constants.API_URL}/users/${userId}/playlists`, {
-    //     headers: { Authorization: "Bearer " + access_token },
-    // }
-    // );
-    // if (resp.status == 200) {
-    //     const playlistData = resp.data;
-    //     console.log("playlistdata: ", playlistData);
-    //     return playlistData;
-    // }
 };
 
 export const getUserInfo = async (access_token) => {
@@ -127,7 +116,6 @@ export const getPlaylistTracks = async (playlist_id, access_token) => {
 
 export const getRandomSong = (tracks) => {
     console.log("getRandomSong tracks: ", tracks);
-    // const RandomPlaylist = allTracks[Math.floor(Math.random() * allTracks.length)];
     const randomTrackIndex = Math.floor(Math.random() * tracks.length);
     const track = tracks[randomTrackIndex].track;
 

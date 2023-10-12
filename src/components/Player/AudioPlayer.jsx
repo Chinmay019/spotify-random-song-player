@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./AudioPlayer.css";
+import { useNavigate } from "react-router-dom";
 import Spinner from "../Spinner/Spinner";
 import WaveAnimation from "./WaveAnimation";
 import MusicController from "./MusicController";
@@ -14,6 +15,7 @@ function AudioPlayer({
   const [isPlaying, setIsPlaying] = useState(false);
   const [loop, setLoop] = useState(false);
   const [progress, setProgress] = useState(0);
+  const navigate = useNavigate();
   let audioSrc = songInfo?.preview_url;
 
   const audioRef = useRef(new Audio(audioSrc));
@@ -33,6 +35,7 @@ function AudioPlayer({
   useEffect(() => {
     if (isPlaying && audioRef.current) {
       audioRef.current.pause();
+      console.log("inside audioSrc useEffect if block");
       clearInterval(intervalRef.current);
       audioRef.current = new Audio(audioSrc);
       audioRef.current.play();
@@ -42,25 +45,84 @@ function AudioPlayer({
     }
   }, [audioSrc]);
 
+  const playSongOnLoop = (value) => {
+    console.log("playSongOnLoop value : ", value);
+    if (value) {
+      if (isPlaying && audioRef.current) {
+        audioRef.current.addEventListener(
+          "ended",
+          () => {
+            audioRef.current.currentTime = 0;
+            audioRef.current.play();
+          },
+          false
+        );
+        console.log(audioRef.current);
+      }
+    } else {
+      if (isPlaying && audioRef.current) {
+        audioRef.current.removeEventListener(
+          "ended",
+          () => {
+            audioRef.setAttribute("onended", () => {
+              audioRef.current.pause();
+            });
+          },
+          false
+        );
+        console.log(audioRef.current);
+      }
+    }
+  };
   useEffect(() => {
-    if (isPlaying && loop && audioRef.current) {
-      audioRef.current.addEventListener(
-        "ended",
-        () => {
-          audioRef.current.currentTime = 0;
-          audioRef.current.play();
-        },
-        false
-      );
+    // if (isPlaying && loop && audioRef.current) {
+    //   audioRef.current.addEventListener(
+    //     "ended",
+    //     () => {
+    //       audioRef.current.currentTime = 0;
+    //       audioRef.current.play();
+    //     },
+    //     false
+    //   );
+    // }
+    console.log("loop value in useeffect loop: ", loop);
+    if (loop) {
+      if (isPlaying && audioRef.current) {
+        console.log("inside loop useEffect if block");
+        // audioRef.current.addEventListener(
+        //   "ended",
+        //   () => {
+        //     audioRef.current.currentTime = 0;
+        //     audioRef.current.play();
+        //   },
+        //   false
+        // );
+        audioRef.current.setAttribute("loop", true);
+        console.log(audioRef.current);
+      }
+    } else {
+      if (isPlaying && audioRef.current) {
+        console.log("inside loop useEffect else block");
+        // audioRef.current.removeEventListener(
+        //   "ended",
+        //   () => {
+        audioRef.current.setAttribute("loop", false);
+        //   },
+        //   false
+        // );
+        console.log(audioRef.current);
+      }
     }
   }, [loop]);
 
   useEffect(() => {
     if (isReady.current) {
+      console.log("inside currentIndex useEffect if block");
       audioRef.current.play();
       setIsPlaying(true);
       startTimer();
     } else {
+      console.log("inside currentIndex useEffect else block");
       isReady.current = true;
     }
   }, [currentIndex]);
@@ -68,6 +130,7 @@ function AudioPlayer({
   useEffect(() => {
     return () => {
       console.log("ended");
+      console.log(navigate);
       // audioRef.current.removeEventListener(
       //   "ended",
       //   () => {
@@ -81,7 +144,7 @@ function AudioPlayer({
       // );
       audioRef.current.pause();
       setIsPlaying(false);
-      setLoop(false);
+      // setLoop(false);
       console.log(audioRef);
       clearInterval(intervalRef.current);
     };
@@ -99,9 +162,20 @@ function AudioPlayer({
     console.log("previous button pressed");
   };
 
-  const handleLoop = (value) => {
+  // const handleLoop = (value) => {
+  //   console.log(value);
+  //   setLoop(value);
+  // };
+
+  const handlePlay = (value) => {
     console.log(value);
-    setLoop(value);
+    if (value == "pause") {
+      audioRef.current.pause();
+    } else if (value == "play") {
+      audioRef.current.play();
+    } else {
+      audioRef.current.pause();
+    }
   };
 
   // console.log("AudioPlayer songInfo: ", songInfo, typeof songInfo);
@@ -119,10 +193,13 @@ function AudioPlayer({
       <MusicController
         isPlaying={isPlaying}
         loop={loop}
+        setLoop={setLoop}
         setIsPlaying={setIsPlaying}
         handleNext={handleNext}
         handlePrevious={handlePrevious}
-        handleLoop={handleLoop}
+        // handleLoop={handleLoop}
+        handlePlay={handlePlay}
+        // playSongOnLoop={playSongOnLoop}
       />
     </div>
   );

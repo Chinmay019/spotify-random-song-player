@@ -6,6 +6,11 @@
 
 .play-pause-button {
     display: inline-block;
+    transition: all 0.2s ease-in-out;
+}
+
+.play-pause-button:hover {
+    transform: scale(1.25);
 }
 
 .control-btn {
@@ -14,6 +19,11 @@
     border-radius: 20px;
     justify-content: center;
     align-items: center;
+    transition: all 0.2s ease-in-out;
+}
+
+.control-btn:hover {
+    transform: scale(1.25);
 }
 
 .active-loop {
