@@ -31,9 +31,13 @@ function AudioPlayer({ songInfo = {}, total, currentIndex, setCurrentIndex }) {
   useEffect(() => {
     if (audioRef.current.src) {
       if (isPlaying) {
-        audioRef.current.pause();
-        clearInterval(intervalRef.current);
-        audioRef.current.play();
+        if (audioRef.current.ended) {
+          audioRef.current.pause();
+          setIsPlaying(false);
+          clearInterval(intervalRef);
+        } else {
+          audioRef.current.play();
+        }
       } else {
         audioRef.current.pause();
         setIsPlaying(false);
@@ -44,14 +48,17 @@ function AudioPlayer({ songInfo = {}, total, currentIndex, setCurrentIndex }) {
         audioRef.current.pause();
         clearInterval(intervalRef.current);
         audioRef.current = new Audio(audioSrc);
+        audioRef.current.setAttribute("loop", false);
         audioRef.current.play();
+        setIsPlaying(true);
+        startTimer();
       } else {
         audioRef.current.pause();
         setIsPlaying(false);
         clearInterval(intervalRef);
       }
     }
-  }, [audioSrc, isPlaying]);
+  }, [audioSrc]);
 
   const playSongOnLoop = (value) => {
     console.log("playSongOnLoop value : ", value);
@@ -82,6 +89,7 @@ function AudioPlayer({ songInfo = {}, total, currentIndex, setCurrentIndex }) {
       }
     }
   };
+
   useEffect(() => {
     // if (isPlaying && loop && audioRef.current) {
     //   audioRef.current.addEventListener(
@@ -133,12 +141,12 @@ function AudioPlayer({ songInfo = {}, total, currentIndex, setCurrentIndex }) {
       console.log("inside currentIndex useEffect else block");
       isReady.current = true;
     }
-  }, [currentIndex]);
+  }, [isReady]);
 
   useEffect(() => {
     return () => {
-      console.log("ended");
-      console.log(navigate);
+      // console.log("ended");
+      // console.log(navigate);
       // audioRef.current.removeEventListener(
       //   "ended",
       //   () => {
@@ -186,6 +194,10 @@ function AudioPlayer({ songInfo = {}, total, currentIndex, setCurrentIndex }) {
     }
   };
 
+  const getDuration = () => {
+    return duration < 60 ? "0:" + Math.round(duration) : duration;
+  };
+
   // console.log("AudioPlayer songInfo: ", songInfo, typeof songInfo);
   return (
     <div className="main-audio-player">
@@ -193,7 +205,7 @@ function AudioPlayer({ songInfo = {}, total, currentIndex, setCurrentIndex }) {
         <span>0:{attachLeadingZero(Math.round(progress))}</span>
         {/* <audio src={audioSrc} controls autoPlay loop></audio> */}
         <WaveAnimation isPlaying={isPlaying} />
-        <span>0:{Math.round(duration)}</span>
+        <span>0:30</span>
       </div>
       <MusicController
         isPlaying={isPlaying}

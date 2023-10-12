@@ -6,7 +6,7 @@
 
 .wave {
     width: 5px;
-    height: 60px;
+    height: 50px;
     background: radial-gradient(circle, #fff5f7, #0cdce7);
     margin: 10px;
     animation: wave 1s linear infinite;
@@ -15,7 +15,7 @@
 
 .candle {
     width: 5px;
-    height: 60px;
+    height: 50px;
     background: radial-gradient(circle, #fff5f7, #0cdce7);
     margin: 10px;
     border-radius: 20px;
