@@ -108,10 +108,23 @@ export const getPlaylistTracks = async (playlist_id, access_token) => {
         headers: { Authorization: "Bearer " + access_token },
     });
     if (resp.status == 200) {
-        const trackData = resp.data;
+        const data = resp.data;
+        const trackData = appendIndexForTracks(data.items);
         console.log("trackData: ", trackData);
         return trackData;
     }
+}
+
+const appendIndexForTracks = (items) => {
+    const indexedItems = items.map((item, index) => {
+        let track = item.track;
+        if (track && track.track && track.type == "track" && track.preview_url !== null && track.name !== null) {
+            track.index = index;
+        }
+        return item;
+    });
+    console.log(indexedItems);
+    return indexedItems;
 }
 
 export const getRandomSong = (tracks) => {

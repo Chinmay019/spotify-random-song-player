@@ -5,13 +5,7 @@ import Spinner from "../Spinner/Spinner";
 import WaveAnimation from "./WaveAnimation";
 import MusicController from "./MusicController";
 
-function AudioPlayer({
-  songInfo = {},
-  setLoading,
-  total,
-  currentIndex,
-  setCurrentIndex,
-}) {
+function AudioPlayer({ songInfo = {}, total, currentIndex, setCurrentIndex }) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [loop, setLoop] = useState(false);
   const [progress, setProgress] = useState(0);
@@ -24,6 +18,8 @@ function AudioPlayer({
 
   const isReady = useRef(false);
 
+  const { duration } = audioRef.current;
+
   const startTimer = () => {
     clearInterval(intervalRef);
 
@@ -33,17 +29,29 @@ function AudioPlayer({
   };
 
   useEffect(() => {
-    if (isPlaying && audioRef.current) {
-      audioRef.current.pause();
-      console.log("inside audioSrc useEffect if block");
-      clearInterval(intervalRef.current);
-      audioRef.current = new Audio(audioSrc);
-      audioRef.current.play();
+    if (audioRef.current.src) {
+      if (isPlaying) {
+        audioRef.current.pause();
+        clearInterval(intervalRef.current);
+        audioRef.current.play();
+      } else {
+        audioRef.current.pause();
+        setIsPlaying(false);
+        clearInterval(intervalRef);
+      }
     } else {
-      audioRef.current.pause();
-      clearInterval(intervalRef);
+      if (isPlaying) {
+        audioRef.current.pause();
+        clearInterval(intervalRef.current);
+        audioRef.current = new Audio(audioSrc);
+        audioRef.current.play();
+      } else {
+        audioRef.current.pause();
+        setIsPlaying(false);
+        clearInterval(intervalRef);
+      }
     }
-  }, [audioSrc]);
+  }, [audioSrc, isPlaying]);
 
   const playSongOnLoop = (value) => {
     console.log("playSongOnLoop value : ", value);
@@ -179,16 +187,13 @@ function AudioPlayer({
   };
 
   // console.log("AudioPlayer songInfo: ", songInfo, typeof songInfo);
-  if (setLoading) {
-    return <Spinner />;
-  }
   return (
     <div className="main-audio-player">
       <div className="duration flex">
         <span>0:{attachLeadingZero(Math.round(progress))}</span>
         {/* <audio src={audioSrc} controls autoPlay loop></audio> */}
-        <WaveAnimation />
-        <span>0:30</span>
+        <WaveAnimation isPlaying={isPlaying} />
+        <span>0:{Math.round(duration)}</span>
       </div>
       <MusicController
         isPlaying={isPlaying}

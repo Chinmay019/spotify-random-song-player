@@ -10,24 +10,24 @@ function PlaylistItem({ name, item }) {
   const { dispatch, selectedPlaylistInfo, access_token, allTracks } =
     useContext(SpotifyContext);
   let navigate = useNavigate();
-  useEffect(() => {
-    const getTracks = async () => {
-      const data = await getPlaylistTracks(item?.id, access_token);
-      // const data = tracksList.data;
-      // console.log(data);
-      if (data) {
-        dispatch({
-          type: "SET_TRACKS",
-          payload: {
-            playlist_id: item?.id,
-            tracks: data.items,
-            total: data.total,
-          },
-        });
-      }
-    };
-    getTracks();
-  }, [item.id]);
+  // useEffect(() => {
+  //   const getTracks = async () => {
+  //     const data = await getPlaylistTracks(item?.id, access_token);
+  //     // const data = tracksList.data;
+  //     // console.log(data);
+  //     if (data) {
+  //       dispatch({
+  //         type: "SET_TRACKS",
+  //         payload: {
+  //           playlist_id: item?.id,
+  //           tracks: data.items,
+  //           total: data.total,
+  //         },
+  //       });
+  //     }
+  //   };
+  //   getTracks();
+  // }, [item.id]);
   let imageURL = "";
   const getImage = () => {
     item.images.map((img) => {
@@ -100,11 +100,23 @@ function PlaylistItem({ name, item }) {
     }
   };
 
-  const handlePlayClick = (playlist_id, item) => {
-    const playlistTracks = getTracksFromPlaylist(playlist_id);
+  const handlePlayClick = async (playlist_id, item) => {
+    const playlistTracks = await getPlaylistTracks(playlist_id, access_token);
+    console.log(playlistTracks);
+    if (playlistTracks) {
+      dispatch({
+        type: "SET_TRACKS",
+        payload: {
+          playlist_id: playlist_id,
+          tracks: playlistTracks,
+          total: playlistTracks.length,
+        },
+      });
+    }
+    // const playlistTracks = getTracksFromPlaylist(playlist_id);
     let randomSongSelected = undefined;
     do {
-      randomSongSelected = selectRandomSong(playlistTracks.tracks);
+      randomSongSelected = selectRandomSong(playlistTracks);
     } while (randomSongSelected === undefined);
     console.log(randomSongSelected);
     const song_id = randomSongSelected.id;

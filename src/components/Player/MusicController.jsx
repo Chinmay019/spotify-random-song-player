@@ -29,9 +29,11 @@ function MusicController({
     if (paused) {
       handlePlay("play");
       setPaused(false);
+      setIsPlaying(true);
     } else {
       handlePlay("pause");
       setPaused(true);
+      setIsPlaying(false);
     }
   };
   // const handleSongLoop = () => {
