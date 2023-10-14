@@ -19,20 +19,17 @@ function MusicController({
   handlePlay,
   // playSongOnLoop,
 }) {
-  const [paused, setPaused] = useState(false);
+  // const [paused, setPaused] = useState(false);
   // const [songOnLoop, setSongOnLoop] = useState(false);
   // const [songLoopClass, setSongLoopClass] = useState("");
   // console.log("loop in MusicController is: ", loop);
   const loopClass = loop ? "active-loop" : "";
   const handlePlayPauseAction = () => {
-    console.log("paused", paused);
-    if (paused) {
+    if (!isPlaying) {
       handlePlay("play");
-      setPaused(false);
       setIsPlaying(true);
     } else {
       handlePlay("pause");
-      setPaused(true);
       setIsPlaying(false);
     }
   };
@@ -56,7 +53,7 @@ function MusicController({
         <div className="control-btn flex" onClick={handlePrevious}>
           <PiSkipBackBold />
         </div>
-        {!paused ? (
+        {isPlaying ? (
           <div
             className="play-pause-button flex"
             onClick={handlePlayPauseAction}

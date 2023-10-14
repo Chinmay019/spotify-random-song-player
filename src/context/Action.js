@@ -147,6 +147,11 @@ export const getDeviceID = async (access_token) => {
     }
 }
 
+export const getSongByIndex = (tracks, index) => {
+    const song = tracks.filter((track) => track.index == index);
+    if (!song) return null;
+}
+
 export const PlaySong = async (uris, access_token) => {
     console.log("accessToken in playsong: ", access_token);
     const resp = await Axios.put(`${constants.API_URL}/me/player/play`, {
