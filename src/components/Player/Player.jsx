@@ -8,15 +8,19 @@ import AudioPlayer from "./AudioPlayer";
 import Shimmer from "../Shimmer/Shimmer";
 
 function Player() {
-  const [currentIndex, setCurrentIndex] = useState(0);
   let setLoading = false;
   const location = useLocation();
   console.log(location.state);
+  const [songInfo, setSongInfo] = useState();
 
   const params = useParams();
   console.log(params);
   if (!params || !params.playlist_id || !params.song_id) {
     setLoading = true;
+  } else if (params && params.playlist_id && params.song_id) {
+    if (!songInfo) {
+      setSongInfo(location?.state?.song);
+    }
   }
 
   return (
@@ -39,11 +43,9 @@ function Player() {
               {location?.state?.song?.name}
             </span>
             <AudioPlayer
-              songInfo={location?.state?.song}
-              setLoading={setLoading}
+              songInfo={songInfo}
+              setSongInfo={setSongInfo}
               total={20}
-              currentIndex={currentIndex}
-              setCurrentIndex={setCurrentIndex}
             />
           </div>
           <div className="playlist-info-container flex">

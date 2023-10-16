@@ -1,15 +1,20 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useContext } from "react";
 import "./AudioPlayer.css";
 import { useNavigate } from "react-router-dom";
 import Spinner from "../Spinner/Spinner";
 import WaveAnimation from "./WaveAnimation";
 import MusicController from "./MusicController";
+import { getSongByIndex } from "../../context/Action";
+import SpotifyContext from "../../context/SpotifyContext";
 
-function AudioPlayer({ songInfo = {}, total, currentIndex, setCurrentIndex }) {
+function AudioPlayer({ songInfo = {}, setSongInfo, total }) {
   const [isPlaying, setIsPlaying] = useState(false);
+  const [currentIndex, setCurrentIndex] = useState(songInfo.index || 0);
   const [loop, setLoop] = useState(false);
   const [progress, setProgress] = useState(0);
   const navigate = useNavigate();
+  const { allTracks } = useContext(SpotifyContext);
+  const { tracks } = { allTracks };
   let audioSrc = songInfo?.preview_url;
 
   const audioRef = useRef(new Audio(audioSrc));
@@ -89,6 +94,10 @@ function AudioPlayer({ songInfo = {}, total, currentIndex, setCurrentIndex }) {
       }
     }
   };
+
+  // useEffect(() => {
+  //   const songInfo = getSongByIndex();
+  // }, [currentIndex]);
 
   useEffect(() => {
     // if (isPlaying && loop && audioRef.current) {
@@ -177,11 +186,6 @@ function AudioPlayer({ songInfo = {}, total, currentIndex, setCurrentIndex }) {
   const handlePrevious = () => {
     console.log("previous button pressed");
   };
-
-  // const handleLoop = (value) => {
-  //   console.log(value);
-  //   setLoop(value);
-  // };
 
   const handlePlay = (value) => {
     console.log(value);

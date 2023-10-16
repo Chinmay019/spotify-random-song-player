@@ -86,7 +86,6 @@ export const getPlaylistInfo = async (access_token) => {
     );
     if (resp.status == 200) {
         const playlistData = await resp.json();
-        console.log("playlistdata: ", playlistData);
         return playlistData;
     }
 };
@@ -98,7 +97,6 @@ export const getUserInfo = async (access_token) => {
     );
     if (resp.status == 200) {
         const userData = resp.data;
-        console.log("userData: ", userData);
         return userData;
     }
 }
@@ -110,7 +108,6 @@ export const getPlaylistTracks = async (playlist_id, access_token) => {
     if (resp.status == 200) {
         const data = resp.data;
         const trackData = appendIndexForTracks(data.items);
-        console.log("trackData: ", trackData);
         return trackData;
     }
 }
@@ -118,21 +115,17 @@ export const getPlaylistTracks = async (playlist_id, access_token) => {
 const appendIndexForTracks = (items) => {
     const indexedItems = items.map((item, index) => {
         let track = item.track;
-        if (track && track.track && track.type == "track" && track.preview_url !== null && track.name !== null) {
+        if (track && track.preview_url !== null && track.name !== null) {
             track.index = index;
         }
         return item;
     });
-    console.log(indexedItems);
     return indexedItems;
 }
 
 export const getRandomSong = (tracks) => {
-    console.log("getRandomSong tracks: ", tracks);
     const randomTrackIndex = Math.floor(Math.random() * tracks.length);
     const track = tracks[randomTrackIndex].track;
-
-    console.log(track + "from actions getrandom song");
     return track;
 }
 
@@ -142,18 +135,18 @@ export const getDeviceID = async (access_token) => {
     });
     if (resp.status == 200) {
         const deviceData = resp.data;
-        console.log("deviceData: ", deviceData);
         return deviceData;
     }
 }
 
-export const getSongByIndex = (tracks, index) => {
-    const song = tracks.filter((track) => track.index == index);
+export const getSongByIndex = (items, index) => {
+    let allTracks;
+    items.map((item) => allTracks.push(item.tracks));
+    const song = allTracks?.filter((track) => track.index === index);
     if (!song) return null;
 }
 
 export const PlaySong = async (uris, access_token) => {
-    console.log("accessToken in playsong: ", access_token);
     const resp = await Axios.put(`${constants.API_URL}/me/player/play`, {
         headers: { Authorization: `Bearer ${access_token}` },
         body: JSON.stringify({
