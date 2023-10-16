@@ -23,10 +23,7 @@ function App() {
               <Route path="/login" element={<Login />} />
               <Route path="/about" element={<About />} />
               <Route path="/player" element={<Player />} />
-              <Route
-                path="/player/:playlist_id/:song_id"
-                element={<Player />}
-              />
+              <Route path="/player/:song_id" element={<Player />} />
               <Route path="/playlists" element={<Playlist />} />
               <Route path="/trending" element={<Trending />} />
               <Route path="/callback?/:code" element={<Code />} />

@@ -15,9 +15,9 @@ function Player() {
 
   const params = useParams();
   console.log(params);
-  if (!params || !params.playlist_id || !params.song_id) {
+  if (!params || !params.song_id) {
     setLoading = true;
-  } else if (params && params.playlist_id && params.song_id) {
+  } else if (params && params.song_id) {
     if (!songInfo) {
       setSongInfo(location?.state?.song);
     }

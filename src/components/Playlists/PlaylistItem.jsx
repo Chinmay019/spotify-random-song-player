@@ -89,6 +89,7 @@ function PlaylistItem({ name, item }) {
           playlist_name: item.name,
           playlist_id: item.id,
           playlist_tracks: item.tracks,
+          playlist_item_info: item,
         },
       });
     }
@@ -107,9 +108,9 @@ function PlaylistItem({ name, item }) {
       dispatch({
         type: "SET_TRACKS",
         payload: {
-          playlist_id: playlist_id,
+          // playlist_id: playlist_id,
           tracks: playlistTracks,
-          total: playlistTracks.length,
+          // total: playlistTracks.length,
         },
       });
     }
@@ -120,8 +121,8 @@ function PlaylistItem({ name, item }) {
     } while (randomSongSelected === undefined);
     console.log(randomSongSelected);
     const song_id = randomSongSelected.id;
-    navigate(`/player/${playlist_id}/${song_id}`, {
-      state: { playlist_id: playlist_id, item, song: randomSongSelected },
+    navigate(`/player/${song_id}`, {
+      state: { item, song: randomSongSelected },
     });
   };
 

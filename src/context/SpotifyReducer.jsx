@@ -92,6 +92,11 @@ const spotifyReducer = (state, action) => {
         ...state,
         currentlyPlaying: action.payload,
       };
+    case "SET_PREVIOUS_TRACK":
+      return {
+        ...state,
+        previouslyPlayed: [action.payload, ...state.previouslyPlayed],
+      };
     default:
       return state;
   }
