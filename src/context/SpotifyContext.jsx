@@ -20,6 +20,8 @@ export const SpotifyProvider = ({ children }) => {
     allTracks: [],
     currentlyPlaying: {},
     previouslyPlayed: [],
+    songIndexStack: [],
+    top: -1,
   };
 
   const [state, dispatch] = useReducer(spotifyReducer, initialState);

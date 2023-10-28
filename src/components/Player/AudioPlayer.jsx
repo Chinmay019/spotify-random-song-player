@@ -7,18 +7,26 @@ import MusicController from "./MusicController";
 import { getRandomSong, getSongByIndex } from "../../context/Action";
 import SpotifyContext from "../../context/SpotifyContext";
 
-function AudioPlayer({ songInfo = {}, setSongInfo, total, Item }) {
+function AudioPlayer({ songInfo = {}, total }) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(songInfo.index || 0);
   const [loop, setLoop] = useState(false);
   const [progress, setProgress] = useState(0);
   const navigate = useNavigate();
-  const { allTracks, dispatch, selectedPlaylistInfo, currentlyPlaying } =
-    useContext(SpotifyContext);
-  const { tracks } = { allTracks };
-  let audioSrc = songInfo?.preview_url;
+  const {
+    allTracks,
+    dispatch,
+    selectedPlaylistInfo,
+    currentlyPlaying,
+    previouslyPlayed,
+  } = useContext(SpotifyContext);
+  const audioSrc = songInfo?.preview_url;
 
   const audioRef = useRef(new Audio(audioSrc));
+
+  audioRef.current.volume = 0.2;
+
+  audioRef.current.setAttribute("loop", false);
 
   const intervalRef = useRef();
 
@@ -40,6 +48,19 @@ function AudioPlayer({ songInfo = {}, setSongInfo, total, Item }) {
     setProgress(0);
   };
 
+  // useEffect(() => {
+  //   if (audioRef.current && isPlaying) {
+  //     audioRef.current.pause();
+  //     clearInterval(intervalRef);
+  //     // setIsPlaying(false);
+  //     // clearInterval(intervalRef);
+  //     // resetTimer();
+  //   } else {
+  //     audioRef.current.play();
+  //     // setIsPlaying(true);
+  //   }
+  // }, [isPlaying]);
+
   useEffect(() => {
     if (audioRef.current.src) {
       if (isPlaying) {
@@ -48,11 +69,12 @@ function AudioPlayer({ songInfo = {}, setSongInfo, total, Item }) {
           setIsPlaying(false);
           clearInterval(intervalRef);
           resetTimer();
-        } else if (currentlyPlaying.id !== songInfo.id) {
+        } else if (currentlyPlaying.id !== songInfo.id && !loop) {
           audioRef.current.pause();
           clearInterval(intervalRef);
           resetTimer();
           audioRef.current = new Audio(audioSrc);
+          audioRef.current.volume = 0.2;
           audioRef.current.setAttribute("loop", false);
           audioRef.current.play();
           setIsPlaying(true);
@@ -70,6 +92,7 @@ function AudioPlayer({ songInfo = {}, setSongInfo, total, Item }) {
         clearInterval(intervalRef.current);
         audioRef.current = new Audio(audioSrc);
         audioRef.current.setAttribute("loop", false);
+        audioRef.current.volume = 0.2;
         audioRef.current.play();
         setIsPlaying(true);
         startTimer();
@@ -79,37 +102,37 @@ function AudioPlayer({ songInfo = {}, setSongInfo, total, Item }) {
         clearInterval(intervalRef);
       }
     }
-  }, [audioSrc, songInfo.id, songInfo]);
+  }, [songInfo.id, isPlaying]);
 
-  const playSongOnLoop = (value) => {
-    console.log("playSongOnLoop value : ", value);
-    if (value) {
-      if (isPlaying && audioRef.current) {
-        audioRef.current.addEventListener(
-          "ended",
-          () => {
-            audioRef.current.currentTime = 0;
-            audioRef.current.play();
-          },
-          false
-        );
-        console.log(audioRef.current);
-      }
-    } else {
-      if (isPlaying && audioRef.current) {
-        audioRef.current.removeEventListener(
-          "ended",
-          () => {
-            audioRef.setAttribute("onended", () => {
-              audioRef.current.pause();
-            });
-          },
-          false
-        );
-        console.log(audioRef.current);
-      }
-    }
-  };
+  // const playSongOnLoop = (value) => {
+  //   console.log("playSongOnLoop value : ", value);
+  //   if (value) {
+  //     if (isPlaying && audioRef.current) {
+  //       audioRef.current.addEventListener(
+  //         "ended",
+  //         () => {
+  //           audioRef.current.currentTime = 0;
+  //           audioRef.current.play();
+  //         },
+  //         false
+  //       );
+  //       console.log(audioRef.current);
+  //     }
+  //   } else {
+  //     if (isPlaying && audioRef.current) {
+  //       audioRef.current.removeEventListener(
+  //         "ended",
+  //         () => {
+  //           audioRef.setAttribute("onended", () => {
+  //             audioRef.current.pause();
+  //           });
+  //         },
+  //         false
+  //       );
+  //       console.log(audioRef.current);
+  //     }
+  //   }
+  // };
 
   // useEffect(() => {
   //   const songInfo = getSongByIndex();
@@ -157,7 +180,7 @@ function AudioPlayer({ songInfo = {}, setSongInfo, total, Item }) {
   }, [loop]);
 
   useEffect(() => {
-    if (isReady.current) {
+    if (isReady.current && !isPlaying) {
       console.log("inside currentIndex useEffect if block");
       audioRef.current.play();
       setIsPlaying(true);
@@ -212,7 +235,8 @@ function AudioPlayer({ songInfo = {}, setSongInfo, total, Item }) {
   };
 
   const handleNext = () => {
-    dispatch({ type: "SET_PREVIOUS_TRACK", payload: songInfo });
+    console.log(songInfo);
+    dispatch({ type: "UPDATE_SONG_STACK_INDEX", payload: songInfo });
     let randomSongSelected = undefined;
     let tracks = [];
     allTracks.map((item) => {
@@ -224,8 +248,12 @@ function AudioPlayer({ songInfo = {}, setSongInfo, total, Item }) {
       randomSongSelected = selectRandomSong(tracks[0]);
     } while (randomSongSelected === undefined);
     console.log(randomSongSelected);
-    setSongInfo(randomSongSelected);
+    // setSongInfo(randomSongSelected);
     const song_id = randomSongSelected.id;
+    // let audioSrc = randomSongSelected?.preview_url;
+    // const audioRef = useRef(new Audio(audioSrc));
+    // audioRef.current.volume = 0.2;
+    // audioRef.current.setAttribute("loop", false);
     navigate(`/player/${song_id}`, {
       state: {
         item: selectedPlaylistInfo[0].playlist_item_info,
@@ -235,7 +263,18 @@ function AudioPlayer({ songInfo = {}, setSongInfo, total, Item }) {
   };
 
   const handlePrevious = () => {
-    console.log("previous button pressed");
+    console.log(previouslyPlayed);
+    if (previouslyPlayed.length) {
+      const len = previouslyPlayed.length;
+      const songSelected = previouslyPlayed[0];
+      const song_id = songSelected.id;
+      navigate(`/player/${song_id}`, {
+        state: {
+          item: selectedPlaylistInfo[0].playlist_item_info,
+          song: songSelected,
+        },
+      });
+    }
   };
 
   const handlePlay = (value) => {

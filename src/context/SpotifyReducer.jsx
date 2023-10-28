@@ -97,6 +97,16 @@ const spotifyReducer = (state, action) => {
         ...state,
         previouslyPlayed: [action.payload, ...state.previouslyPlayed],
       };
+    case "UPDATE_INDEX":
+      return {
+        ...state,
+        top: action.payload,
+      };
+    case "UPDATE_SONG_STACK_INDEX":
+      return {
+        ...state,
+        songIndexStack: [action.payload, ...state.songIndexStack],
+      };
     default:
       return state;
   }

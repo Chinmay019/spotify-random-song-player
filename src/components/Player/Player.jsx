@@ -11,16 +11,12 @@ function Player() {
   let setLoading = false;
   const location = useLocation();
   console.log(location.state);
-  const [songInfo, setSongInfo] = useState();
+  // const [songInfo, setSongInfo] = useState();
 
   const params = useParams();
   console.log(params);
   if (!params || !params.song_id) {
     setLoading = true;
-  } else if (params && params.song_id) {
-    if (!songInfo) {
-      setSongInfo(location?.state?.song);
-    }
   }
 
   return (
@@ -43,8 +39,8 @@ function Player() {
               {location?.state?.song?.name}
             </span>
             <AudioPlayer
-              songInfo={songInfo}
-              setSongInfo={setSongInfo}
+              songInfo={location?.state?.song}
+              // setSongInfo={setSongInfo}
               total={20}
             />
           </div>
