@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useEffect, useContext } from "react";
 import "./SongCard.css";
 import Spinner from "../Spinner/Spinner";
+import SpotifyContext from "../../context/SpotifyContext";
 
 function getImageURL(images) {
   let imageURL = images?.map((elem) => {
@@ -13,7 +14,7 @@ function getImageURL(images) {
 
 const getArtist = (artists) => {
   let artistsName = "";
-  artists.forEach((elem) => {
+  artists?.forEach((elem) => {
     if (artistsName.trim().length > 0) {
       artistsName += ", " + elem.name;
     } else {
@@ -23,13 +24,24 @@ const getArtist = (artists) => {
   return artistsName;
 };
 
-function SongCard({ songInfo, setLoading }) {
-  if (setLoading) {
+function SongCard({ songInfo = {} }) {
+  const { setSpinner, currentlyPlaying, songAlbumInfo } =
+    useContext(SpotifyContext);
+  if (setSpinner) {
     return <Spinner />;
   }
-  const images = songInfo?.album?.images;
-  const imageUrl = images && getImageURL(images);
-  const artist = getArtist(songInfo?.artists);
+  // let images, imageUrl, artist;
+  // useEffect(() => {
+  //   images = currentlyPlaying?.album?.images;
+  //   imageUrl = images && getImageURL(images);
+  //   artist = currentlyPlaying?.artists && getArtist(currentlyPlaying?.artists);
+  // }, []);
+  songInfo = currentlyPlaying;
+  const { images } = songAlbumInfo;
+  const imageUrl = getImageURL(images);
+  const artist =
+    currentlyPlaying?.artists && getArtist(currentlyPlaying?.artists);
+
   return (
     <div className="song-card flex">
       <div className="song-album-container">
@@ -46,7 +58,7 @@ function SongCard({ songInfo, setLoading }) {
           <span className="song-name">{songInfo?.name}</span>
           {/* <span className="song-name">{songInfo?.name}</span> */}
         </div>
-        <div className="artist-name">{artist.length && artist}</div>
+        <div className="artist-name">{artist?.length && artist}</div>
         <div className="album-name">{songInfo?.album?.name}</div>
         <div className="release-date">{songInfo?.album?.release_date}</div>
       </div>

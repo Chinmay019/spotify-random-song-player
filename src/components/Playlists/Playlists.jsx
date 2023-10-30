@@ -32,6 +32,13 @@ function Playlists() {
   }, []);
 
   useEffect(() => {
+    dispatch({ type: "RANDOMLY_SELECTED_TRACK", payload: {} });
+    dispatch({ type: "SET_PREVIOUS_TRACK", payload: {} });
+    dispatch({ type: "SET_TRACKS", payload: {} });
+    dispatch({ type: "SELECTED_PLAYLIST_ITEMS", payload: {} });
+  }, []);
+
+  useEffect(() => {
     console.log("useeffect called in playlist");
     const getPlaylists = async () => {
       console.log("userId", userId);

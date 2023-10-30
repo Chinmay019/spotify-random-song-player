@@ -8,3 +8,10 @@
     opacity: 1;
     background-image: repeating-radial-gradient(circle at center left, transparent 0, #1f0409 110px), repeating-linear-gradient(#444cf755, #444cf7);
 }
+
+.block {
+    display: block;
+    margin: auto;
+    width: 100%;
+    height: 100%;
+}

@@ -19,7 +19,15 @@ function AudioPlayer({ songInfo = {}, total }) {
     selectedPlaylistInfo,
     currentlyPlaying,
     previouslyPlayed,
+    setSpinner,
   } = useContext(SpotifyContext);
+
+  if (setSpinner) {
+    return <Spinner />;
+  }
+
+  songInfo = Object.keys(currentlyPlaying).length ? currentlyPlaying : {};
+
   const audioSrc = songInfo?.preview_url;
 
   const audioRef = useRef(new Audio(audioSrc));

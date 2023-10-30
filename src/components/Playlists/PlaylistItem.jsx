@@ -10,24 +10,6 @@ function PlaylistItem({ name, item }) {
   const { dispatch, selectedPlaylistInfo, access_token, allTracks } =
     useContext(SpotifyContext);
   let navigate = useNavigate();
-  // useEffect(() => {
-  //   const getTracks = async () => {
-  //     const data = await getPlaylistTracks(item?.id, access_token);
-  //     // const data = tracksList.data;
-  //     // console.log(data);
-  //     if (data) {
-  //       dispatch({
-  //         type: "SET_TRACKS",
-  //         payload: {
-  //           playlist_id: item?.id,
-  //           tracks: data.items,
-  //           total: data.total,
-  //         },
-  //       });
-  //     }
-  //   };
-  //   getTracks();
-  // }, [item.id]);
   let imageURL = "";
   const getImage = () => {
     item.images.map((img) => {
@@ -56,23 +38,6 @@ function PlaylistItem({ name, item }) {
       payload: selectedPlaylistTracks,
     });
     return selectedPlaylistTracks;
-  };
-
-  const selectRandomSong = (tracks) => {
-    const randTrack = getRandomSong(tracks);
-    console.log(randTrack);
-    if (
-      randTrack &&
-      randTrack.track &&
-      randTrack.preview_url !== null &&
-      randTrack.name !== null
-    ) {
-      console.log("randomly selected song is: " + randTrack);
-      dispatch({ type: "SELECTED_RANDOM_SONG", payload: randTrack });
-      return randTrack;
-    } else {
-      selectRandomSong(tracks);
-    }
   };
 
   const handleClick = () => {
@@ -107,23 +72,16 @@ function PlaylistItem({ name, item }) {
     if (playlistTracks) {
       dispatch({
         type: "SET_TRACKS",
-        payload: {
-          // playlist_id: playlist_id,
-          tracks: playlistTracks,
-          // total: playlistTracks.length,
-        },
+        payload: playlistTracks,
+        // {
+        //   // playlist_id: playlist_id,
+        //   tracks: playlistTracks,
+        //   // total: playlistTracks.length,
+        // },
       });
     }
     // const playlistTracks = getTracksFromPlaylist(playlist_id);
-    let randomSongSelected = undefined;
-    do {
-      randomSongSelected = selectRandomSong(playlistTracks);
-    } while (randomSongSelected === undefined);
-    console.log(randomSongSelected);
-    const song_id = randomSongSelected.id;
-    navigate(`/player/${song_id}`, {
-      state: { item, song: randomSongSelected },
-    });
+    navigate(`/player`);
   };
 
   return (

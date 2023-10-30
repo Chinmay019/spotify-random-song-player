@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
 import "./Player.css";
 import PlaylistCard from "./PlaylistCard";
@@ -6,50 +6,73 @@ import SpotifyContext from "../../context/SpotifyContext";
 import SongCard from "./SongCard";
 import AudioPlayer from "./AudioPlayer";
 import Shimmer from "../Shimmer/Shimmer";
+import Spinner from "../Spinner/Spinner";
+import { getRandomSong } from "../../context/Action";
 
 function Player() {
+  const { allTracks, setSpinner, dispatch } = useContext(SpotifyContext);
+  console.log(setSpinner);
   let setLoading = false;
   const location = useLocation();
-  console.log(location.state);
-  // const [songInfo, setSongInfo] = useState();
-
-  const params = useParams();
-  console.log(params);
-  if (!params || !params.song_id) {
-    setLoading = true;
+  let selectedSongTrack = {};
+  if (!allTracks || !allTracks.length) {
+    return;
   }
+  useEffect(() => {
+    const selectRandomSong = (tracks) => {
+      const randTrack = getRandomSong(tracks);
+      console.log(randTrack);
+      if (
+        randTrack &&
+        randTrack.track &&
+        randTrack.preview_url !== null &&
+        randTrack.name !== null
+      ) {
+        console.log("randomly selected song is: " + randTrack);
+        const { album } = randTrack;
+        dispatch({ type: "SET_SONG_ALBUM_INFO", payload: album });
+        dispatch({ type: "SELECTED_RANDOM_SONG", payload: randTrack });
+        dispatch({ type: "SET_SPINNER", payload: false });
+        return randTrack;
+      } else {
+        selectRandomSong(tracks);
+      }
+    };
+
+    let randomSongSelected = undefined;
+    dispatch({ type: "SET_SPINNER", payload: true });
+    do {
+      randomSongSelected = selectRandomSong(allTracks);
+    } while (randomSongSelected === undefined);
+
+    console.log(randomSongSelected);
+
+    selectedSongTrack = randomSongSelected;
+  }, []);
 
   return (
-    <div>
-      {setLoading ? (
-        <div className="player-container flex">
-          <Shimmer />
-          <Shimmer />
-        </div>
+    <div className="block">
+      {setSpinner ? (
+        // <div className="player-container flex">
+        //   <Shimmer />
+        //   <Shimmer />
+        // </div>
+        <Spinner />
       ) : (
         <div className="player-container flex">
-          <div className="song-card-container">
-            <SongCard
-              songInfo={location?.state?.song}
-              setLoading={setLoading}
-            />
+          <div className="song-card-container flex">
+            <SongCard setLoading={setLoading} />
           </div>
+          {console.log(selectedSongTrack)}
           <div className="track-container flex">
-            <span className="song-title-header">
-              {location?.state?.song?.name}
-            </span>
+            <span className="song-title-header">{selectedSongTrack?.name}</span>
             <AudioPlayer
-              songInfo={location?.state?.song}
               // setSongInfo={setSongInfo}
               total={20}
             />
           </div>
           <div className="playlist-info-container flex">
-            <PlaylistCard
-              images={location?.state?.item.images}
-              setLoading={setLoading}
-              album={location?.state?.item}
-            />
+            <PlaylistCard setLoading={setLoading} />
           </div>
         </div>
       )}

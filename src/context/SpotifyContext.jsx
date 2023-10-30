@@ -16,12 +16,14 @@ export const SpotifyProvider = ({ children }) => {
     playlistItems: {},
     currentIndex: 0,
     playlistNew: {},
-    selectedPlaylistInfo: [],
+    selectedPlaylistInfo: {},
     allTracks: [],
     currentlyPlaying: {},
     previouslyPlayed: [],
     songIndexStack: [],
     top: -1,
+    setSpinner: true,
+    songAlbumInfo: {},
   };
 
   const [state, dispatch] = useReducer(spotifyReducer, initialState);

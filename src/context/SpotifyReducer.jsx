@@ -55,10 +55,7 @@ const spotifyReducer = (state, action) => {
     case "SELECT_PLAYLIST":
       return {
         ...state,
-        selectedPlaylistInfo: [
-          ...state.selectedPlaylistInfo,
-          ...[action.payload],
-        ],
+        selectedPlaylistInfo: action.payload,
       };
     case "SELECTED_PLAYLIST_ITEMS":
       return {
@@ -80,12 +77,17 @@ const spotifyReducer = (state, action) => {
     case "SET_TRACKS":
       return {
         ...state,
-        allTracks: [...state.allTracks, ...[action.payload]],
+        allTracks: action.payload,
       };
     case "SET_DEVICE_ID":
       return {
         ...state,
         device_id: action.payload,
+      };
+    case "SET_SONG_ALBUM_INFO":
+      return {
+        ...state,
+        songAlbumInfo: action.payload,
       };
     case "RANDOMLY_SELECTED_TRACK":
       return {
@@ -95,7 +97,7 @@ const spotifyReducer = (state, action) => {
     case "SET_PREVIOUS_TRACK":
       return {
         ...state,
-        previouslyPlayed: [action.payload, ...state.previouslyPlayed],
+        previouslyPlayed: action.payload,
       };
     case "UPDATE_INDEX":
       return {
@@ -106,6 +108,11 @@ const spotifyReducer = (state, action) => {
       return {
         ...state,
         songIndexStack: [action.payload, ...state.songIndexStack],
+      };
+    case "SET_SPINNER":
+      return {
+        ...state,
+        setSpinner: action.payload,
       };
     default:
       return state;
